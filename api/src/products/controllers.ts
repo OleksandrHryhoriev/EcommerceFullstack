@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { type Request, type Response } from "express";
 
 export default class ProductController {
    async getProductsList(req: Request, res: Response) {
@@ -8,6 +8,7 @@ export default class ProductController {
       res.send("Product by ID");
    }
    async createProduct(req: Request, res: Response) {
+      console.log(req.body);
       res.send("create Product");
    }
    async updateProduct(req: Request, res: Response) {
