@@ -1,69 +1,58 @@
 import { type Request, type Response } from "express";
 import ProductsService from "./service.ts";
+import ApiError from "../error/apiError.ts";
+import type { NewProduct } from "../db/schema.ts";
 
 const productsService = new ProductsService();
 
 export default class ProductController {
    async getProductsList(req: Request, res: Response) {
-      try {
-         const products = await productsService.getProductsList();
-         res.status(200).json(products);
-      } catch (error) {
-         res.status(500).send(`Failed to get products list from DB: ${error}`);
-      }
+      const products = await productsService.getProductsList();
+      res.json(products);
    }
    async getProductById(req: Request, res: Response) {
-      try {
-         const id = Number(req.params.id);
-         const product = await productsService.getProductById(id);
-
-         if (product) {
-            res.status(200).json(product);
-         } else {
-            res.status(404).json({ message: "Product not found" });
-         }
-      } catch (error) {
-         res.status(500).send(`Failed to get product from DB: ${error}`);
+      const id = Number(req.params.id);
+      if (isNaN(id)) {
+         throw ApiError.badRequest("Incorrect product ID");
       }
+
+      const product = await productsService.getProductById(id);
+
+      if (!product) throw ApiError.notFound("Product not found");
+
+      res.json(product);
    }
    async createProduct(req: Request, res: Response) {
-      try {
-         const product = await productsService.createProduct(req.body);
-
-         res.status(201).send(product);
-      } catch (error) {
-         res.status(500).send(error);
+      const newProductData: NewProduct = req.body;
+      if (!newProductData.name || !newProductData.price) {
+         throw ApiError.badRequest("Required fields are empty");
       }
+
+      const product = await productsService.createProduct(newProductData);
+
+      res.status(201).json(product);
    }
    async updateProduct(req: Request, res: Response) {
-      try {
-         const id = Number(req.params.id);
-         const updatedProduct = await productsService.updateProduct(
-            req.body,
-            id,
-         );
-
-         if (updatedProduct) {
-            res.status(200).send("Product updated succesfully");
-         } else {
-            res.status(404).json({ message: "Product not found" });
-         }
-      } catch (error) {
-         res.status(500).send(`Failed to update product. ${error}`);
+      const id = Number(req.params.id);
+      if (isNaN(id)) {
+         throw ApiError.badRequest("Incorrect product ID");
       }
+
+      const updatedProduct = await productsService.updateProduct(req.body, id);
+
+      if (!updatedProduct) throw ApiError.notFound("Product not found");
+
+      res.json("Product updated");
    }
    async deleteProduct(req: Request, res: Response) {
-      try {
-         const id = Number(req.params.id);
-         const deletedProduct = await productsService.deleteProduct(id);
-
-         if (deletedProduct) {
-            res.status(204).send("deleted");
-         } else {
-            res.status(404).json({ message: "Product not found" });
-         }
-      } catch (error) {
-         res.status(500).send(`Failed to delete product. ${error}`);
+      const id = Number(req.params.id);
+      if (isNaN(id)) {
+         throw ApiError.badRequest("Incorrect product ID");
       }
+      const deletedProduct = await productsService.deleteProduct(id);
+
+      if (!deletedProduct) throw ApiError.notFound("Product not found");
+
+      res.status(204).end();
    }
 }
