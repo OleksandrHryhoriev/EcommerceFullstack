@@ -1,7 +1,8 @@
 import { type Request, type Response } from "express";
 import ProductsService from "./service.ts";
 import ApiError from "../error/apiError.ts";
-import type { NewProduct } from "../db/schema.ts";
+import type { ProductId } from "./productDataTypes.ts";
+import { convertInputType } from "../utils/convertors.ts";
 
 const productsService = new ProductsService();
 
@@ -11,10 +12,7 @@ export default class ProductController {
       res.json(products);
    }
    async getProductById(req: Request, res: Response) {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-         throw ApiError.badRequest("Incorrect product ID");
-      }
+      const id = convertInputType<ProductId>(req.params.id as string);
 
       const product = await productsService.getProductById(id);
 
@@ -23,32 +21,39 @@ export default class ProductController {
       res.json(product);
    }
    async createProduct(req: Request, res: Response) {
-      const newProductData: NewProduct = req.body;
-      if (!newProductData.name || !newProductData.price) {
-         throw ApiError.badRequest("Required fields are empty");
-      }
+      // const newProductData: NewProduct = req.body;
+      // if (!newProductData.name || !newProductData.price) {
+      //    throw ApiError.badRequest("Required fields are empty");
+      // }
 
-      const product = await productsService.createProduct(newProductData);
+      const product = await productsService.createProduct(req.body);
 
       res.status(201).json(product);
    }
    async updateProduct(req: Request, res: Response) {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-         throw ApiError.badRequest("Incorrect product ID");
-      }
+      const id = convertInputType<ProductId>(req.params.id as string);
 
       const updatedProduct = await productsService.updateProduct(req.body, id);
 
       if (!updatedProduct) throw ApiError.notFound("Product not found");
 
-      res.json("Product updated");
+      res.json(updatedProduct);
+   }
+   async partialUpdateProduct(req: Request, res: Response) {
+      const id = convertInputType<ProductId>(req.params.id as string);
+
+      const updatedProduct = await productsService.partialUpdateProduct(
+         req.body,
+         id,
+      );
+
+      if (!updatedProduct) throw ApiError.notFound("Product not found");
+
+      res.json(updatedProduct);
    }
    async deleteProduct(req: Request, res: Response) {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-         throw ApiError.badRequest("Incorrect product ID");
-      }
+      const id = convertInputType<ProductId>(req.params.id as string);
+
       const deletedProduct = await productsService.deleteProduct(id);
 
       if (!deletedProduct) throw ApiError.notFound("Product not found");

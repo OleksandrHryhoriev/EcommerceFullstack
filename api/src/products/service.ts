@@ -1,4 +1,9 @@
-import type { NewProduct, Product } from "../db/schema.ts";
+import type {
+   CreateProduct,
+   UpdateProduct,
+   ProductId,
+   PartialUpdateProduct,
+} from "./productDataTypes.ts";
 import ProductsDataAccess from "./dataAccess.ts";
 
 const productsDataAccess = new ProductsDataAccess();
@@ -9,22 +14,33 @@ class ProductsService {
 
       return products;
    }
-   async getProductById(id: number) {
+   async getProductById(id: ProductId) {
       const product = await productsDataAccess.getProductById(id);
 
       return product;
    }
-   async createProduct(newProduct: NewProduct) {
+   async createProduct(newProduct: CreateProduct) {
       const product = await productsDataAccess.createProduct(newProduct);
 
       return product;
    }
-   async updateProduct(productData: Product, id: number) {
+   async updateProduct(productData: UpdateProduct, id: ProductId) {
       const product = await productsDataAccess.updateProduct(productData, id);
 
       return product;
    }
-   async deleteProduct(id: number) {
+   async partialUpdateProduct(
+      productData: PartialUpdateProduct,
+      id: ProductId,
+   ) {
+      const product = await productsDataAccess.partielUpdateProduct(
+         productData,
+         id,
+      );
+
+      return product;
+   }
+   async deleteProduct(id: ProductId) {
       const product = await productsDataAccess.deleteProduct(id);
 
       return product;

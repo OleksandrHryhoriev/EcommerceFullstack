@@ -1,16 +1,18 @@
 import type { NextFunction, Request, Response } from "express";
 import ApiError from "../error/apiError.ts";
 
-export function errorMiddleware(
+export function globalErrorMiddleware(
    err: Error,
    req: Request,
    res: Response,
    next: NextFunction,
 ) {
    if (err instanceof ApiError) {
-      return res
-         .status(err.status)
-         .json({ status: err.status, message: err.message });
+      return res.status(err.statusCode).json({
+         status: err.statusCode,
+         message: err.message,
+         ...(err.errors && { errors: err.errors }),
+      });
    }
 
    // Unhandeled Errors

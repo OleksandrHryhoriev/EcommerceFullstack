@@ -6,14 +6,21 @@ export type ErrorHttpStatusCode =
    | 500; // Internal Server Error
 
 class ApiError extends Error {
-   public status: ErrorHttpStatusCode;
-   constructor(status: ErrorHttpStatusCode, message: string) {
+   statusCode: ErrorHttpStatusCode;
+   errors?: any[];
+
+   constructor(
+      statusCode: ErrorHttpStatusCode,
+      message: string,
+      errors?: any[],
+   ) {
       super(message);
-      this.status = status;
+      this.statusCode = statusCode;
+      this.errors = errors;
    }
 
-   static badRequest(message: string) {
-      return new ApiError(400, message);
+   static badRequest(message: string, errors?: any[]) {
+      return new ApiError(400, message, errors);
    }
    static unauthorized(message: string) {
       return new ApiError(401, message);

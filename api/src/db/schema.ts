@@ -1,4 +1,3 @@
-import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import {
    doublePrecision,
    integer,
@@ -14,6 +13,3 @@ export const productsTable = pgTable("products", {
    image: varchar({ length: 255 }),
    price: doublePrecision().notNull(),
 });
-
-export type Product = InferSelectModel<typeof productsTable>;
-export type NewProduct = InferInsertModel<typeof productsTable>;
