@@ -3,7 +3,7 @@ import type {
    UpdateProduct,
    ProductId,
    PartialUpdateProduct,
-} from "./productDataTypes.ts";
+} from "./types.ts";
 import ProductsDataAccess from "./dataAccess.ts";
 
 const productsDataAccess = new ProductsDataAccess();

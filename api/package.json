@@ -7,9 +7,9 @@
    "scripts": {
       "dev": "node --import=tsx --env-file=.env --watch src/server.ts",
       "build": "tsc",
-      "db:gen": "drizzle-kit generate",
-      "db:mig": "drizzle-kit migrate",
-      "db:stud": "drizzle-kit studio"
+      "db:gen": "npx drizzle-kit generate",
+      "db:mig": "npx drizzle-kit migrate",
+      "db:stud": "npx drizzle-kit studio"
    },
    "keywords": [],
    "author": "",
@@ -24,7 +24,7 @@
    "devDependencies": {
       "@types/express": "^5.0.6",
       "@types/pg": "^8.23.1",
-      "drizzle-kit": "^0.31.10",
+      "drizzle-kit": "^1.0.0-rc.4",
       "tsx": "^4.23.13",
       "typescript": "^7.0.2"
    }

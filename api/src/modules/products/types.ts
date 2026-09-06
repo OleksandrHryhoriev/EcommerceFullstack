@@ -1,5 +1,5 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import type { productsTable } from "../db/schema.ts";
+import { productsTable } from "./schema.ts";
 
 export type Product = InferSelectModel<typeof productsTable>;
 export type CreateProduct = InferInsertModel<typeof productsTable>;

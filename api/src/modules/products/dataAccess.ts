@@ -1,12 +1,12 @@
-import { db } from "../db/index.ts";
-import { productsTable } from "../db/schema.ts";
 import { eq } from "drizzle-orm";
+import { db } from "../../core/db/index.ts";
+import { productsTable } from "./schema.ts";
 import type {
    CreateProduct,
-   UpdateProduct,
-   ProductId,
    PartialUpdateProduct,
-} from "./productDataTypes.ts";
+   ProductId,
+   UpdateProduct,
+} from "./types.ts";
 
 class ProductsDataAccess {
    async getProductsList() {

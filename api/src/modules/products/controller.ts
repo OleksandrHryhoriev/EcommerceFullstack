@@ -1,12 +1,12 @@
 import { type Request, type Response } from "express";
+import ApiError from "../../core/error/apiError.ts";
+import { convertInputType } from "../../core/utils/convertors.ts";
+import type { ProductId } from "./types.ts";
 import ProductsService from "./service.ts";
-import ApiError from "../error/apiError.ts";
-import type { ProductId } from "./productDataTypes.ts";
-import { convertInputType } from "../utils/convertors.ts";
 
 const productsService = new ProductsService();
 
-export default class ProductController {
+class ProductsController {
    async getProductsList(req: Request, res: Response) {
       const products = await productsService.getProductsList();
       res.json(products);
@@ -21,11 +21,6 @@ export default class ProductController {
       res.json(product);
    }
    async createProduct(req: Request, res: Response) {
-      // const newProductData: NewProduct = req.body;
-      // if (!newProductData.name || !newProductData.price) {
-      //    throw ApiError.badRequest("Required fields are empty");
-      // }
-
       const product = await productsService.createProduct(req.body);
 
       res.status(201).json(product);
@@ -61,3 +56,5 @@ export default class ProductController {
       res.status(204).end();
    }
 }
+
+export default ProductsController;

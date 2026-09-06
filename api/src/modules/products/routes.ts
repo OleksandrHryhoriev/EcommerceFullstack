@@ -1,18 +1,18 @@
 import { Router } from "express";
-import ProductController from "./controller.ts";
+import ProductsController from "./controller.ts";
 import {
    validateData,
    validateParams,
-} from "../middlewares/validationMiddleware.ts";
+} from "../../core/middlewares/validationMiddleware.ts";
 
 import {
    idParamsSchema,
    createProductSchema,
    updateProductSchema,
    partialUpdateProductSchema,
-} from "./productValidateSchemas.ts";
+} from "./dto.ts";
 
-const productController = new ProductController();
+const productController = new ProductsController();
 const productsRouter = Router();
 
 productsRouter.get("/", productController.getProductsList);
