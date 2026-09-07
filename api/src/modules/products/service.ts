@@ -5,6 +5,7 @@ import type {
    PartialUpdateProduct,
 } from "./types.ts";
 import ProductsDataAccess from "./dataAccess.ts";
+import ApiError from "../../core/error/apiError.ts";
 
 const productsDataAccess = new ProductsDataAccess();
 
@@ -17,6 +18,8 @@ class ProductsService {
    async getProductById(id: ProductId) {
       const product = await productsDataAccess.getProductById(id);
 
+      if (!product) throw ApiError.notFound("Product not found");
+
       return product;
    }
    async createProduct(newProduct: CreateProduct) {
@@ -26,6 +29,8 @@ class ProductsService {
    }
    async updateProduct(productData: UpdateProduct, id: ProductId) {
       const product = await productsDataAccess.updateProduct(productData, id);
+
+      if (!product) throw ApiError.notFound("Product not found");
 
       return product;
    }
@@ -38,10 +43,14 @@ class ProductsService {
          id,
       );
 
+      if (!product) throw ApiError.notFound("Product not found");
+
       return product;
    }
    async deleteProduct(id: ProductId) {
       const product = await productsDataAccess.deleteProduct(id);
+
+      if (!product) throw ApiError.notFound("Product not found");
 
       return product;
    }

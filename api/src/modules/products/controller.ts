@@ -1,5 +1,4 @@
 import { type Request, type Response } from "express";
-import ApiError from "../../core/error/apiError.ts";
 import { convertInputType } from "../../core/utils/convertors.ts";
 import type { ProductId } from "./types.ts";
 import ProductsService from "./service.ts";
@@ -16,8 +15,6 @@ class ProductsController {
 
       const product = await productsService.getProductById(id);
 
-      if (!product) throw ApiError.notFound("Product not found");
-
       res.json(product);
    }
    async createProduct(req: Request, res: Response) {
@@ -30,8 +27,6 @@ class ProductsController {
 
       const updatedProduct = await productsService.updateProduct(req.body, id);
 
-      if (!updatedProduct) throw ApiError.notFound("Product not found");
-
       res.json(updatedProduct);
    }
    async partialUpdateProduct(req: Request, res: Response) {
@@ -42,16 +37,12 @@ class ProductsController {
          id,
       );
 
-      if (!updatedProduct) throw ApiError.notFound("Product not found");
-
       res.json(updatedProduct);
    }
    async deleteProduct(req: Request, res: Response) {
       const id = convertInputType<ProductId>(req.params.id as string);
 
-      const deletedProduct = await productsService.deleteProduct(id);
-
-      if (!deletedProduct) throw ApiError.notFound("Product not found");
+      await productsService.deleteProduct(id);
 
       res.status(204).end();
    }
