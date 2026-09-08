@@ -1,9 +1,4 @@
-import type {
-   CreateUser,
-   UpdateUser,
-   UserId,
-   PartialUpdateUser,
-} from "./types.ts";
+import type { CreateUser } from "./types.ts";
 import UsersDataAccess from "./dataAccess.ts";
 import ApiError from "../../core/error/apiError.ts";
 
@@ -15,39 +10,39 @@ class UsersService {
 
       return users;
    }
-   async getUserById(id: UserId) {
-      const user = await usersDataAccess.getUserById(id);
 
-      if (!user) throw ApiError.notFound("User not found");
+   async getUserByEmail(email: string) {
+      const user = await usersDataAccess.getUserByEmail(email);
 
       return user;
    }
+
    async createUser(newUser: CreateUser) {
       const user = await usersDataAccess.createUser(newUser);
 
       return user;
    }
-   async updateUser(UserData: UpdateUser, id: UserId) {
-      const user = await usersDataAccess.updateUser(UserData, id);
+   // async updateUser(UserData: UpdateUser, id: UserId) {
+   //    const user = await usersDataAccess.updateUser(UserData, id);
 
-      if (!user) throw ApiError.notFound("User not found");
+   //    if (!user) throw ApiError.notFound("User not found");
 
-      return user;
-   }
-   async partialUpdateUser(UserData: PartialUpdateUser, id: UserId) {
-      const user = await usersDataAccess.partielUpdateUser(UserData, id);
+   //    return user;
+   // }
+   // async partialUpdateUser(UserData: PartialUpdateUser, id: UserId) {
+   //    const user = await usersDataAccess.partielUpdateUser(UserData, id);
 
-      if (!user) throw ApiError.notFound("User not found");
+   //    if (!user) throw ApiError.notFound("User not found");
 
-      return user;
-   }
-   async deleteUser(id: UserId) {
-      const user = await usersDataAccess.deleteUser(id);
+   //    return user;
+   // }
+   // async deleteUser(id: UserId) {
+   //    const user = await usersDataAccess.deleteUser(id);
 
-      if (!user) throw ApiError.notFound("User not found");
+   //    if (!user) throw ApiError.notFound("User not found");
 
-      return user;
-   }
+   //    return user;
+   // }
 }
 
 export default UsersService;

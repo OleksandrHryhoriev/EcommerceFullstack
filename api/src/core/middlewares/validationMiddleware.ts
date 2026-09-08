@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import type z from "zod";
 import ApiError from "../error/apiError.ts";
+import { env } from "../../config/env.ts";
 
 export function validateData(schema: z.ZodType) {
    return async (req: Request, res: Response, next: NextFunction) => {
@@ -12,7 +13,10 @@ export function validateData(schema: z.ZodType) {
             message: issue.message,
          }));
 
-         throw ApiError.badRequest("Invalid request data", errorMessages);
+         throw ApiError.badRequest(
+            "Invalid request data",
+            env.NODE_ENV === "production" ? undefined : errorMessages,
+         );
       }
 
       req.body = result.data;
@@ -34,7 +38,10 @@ export function validateParams<T extends z.ZodObject<any, any>>(schema: T) {
             message: issue.message,
          }));
 
-         throw ApiError.badRequest("Invalid URL parameters", errorMessages);
+         throw ApiError.badRequest(
+            "Invalid URL parameters",
+            env.NODE_ENV === "production" ? undefined : errorMessages,
+         );
       }
 
       req.params = result.data;

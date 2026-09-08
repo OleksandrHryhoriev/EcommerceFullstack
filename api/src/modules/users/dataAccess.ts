@@ -1,12 +1,7 @@
 import { db } from "../../core/db/index.ts";
 import { eq } from "drizzle-orm";
 import { usersTable } from "./schema.ts";
-import type {
-   CreateUser,
-   PartialUpdateUser,
-   UpdateUser,
-   UserId,
-} from "./types.ts";
+import type { CreateUser } from "./types.ts";
 import ApiError from "../../core/error/apiError.ts";
 
 class UsersDataAccess {
@@ -14,14 +9,16 @@ class UsersDataAccess {
       const users = await db.select().from(usersTable);
       return users;
    }
-   async getUserById(id: UserId) {
+
+   async getUserByEmail(email: string) {
       const [user] = await db
          .select()
          .from(usersTable)
-         .where(eq(usersTable.id, id));
+         .where(eq(usersTable.email, email));
 
       return user;
    }
+
    async createUser(data: CreateUser) {
       const [user] = await db
          .insert(usersTable)
@@ -31,32 +28,32 @@ class UsersDataAccess {
 
       return user;
    }
-   async updateUser(data: UpdateUser, id: UserId) {
-      const [updatedUser] = await db
-         .update(usersTable)
-         .set(data)
-         .where(eq(usersTable.id, id))
-         .returning();
+   // async updateUser(data: UpdateUser, id: UserId) {
+   //    const [updatedUser] = await db
+   //       .update(usersTable)
+   //       .set(data)
+   //       .where(eq(usersTable.id, id))
+   //       .returning();
 
-      return updatedUser;
-   }
-   async partielUpdateUser(data: PartialUpdateUser, id: UserId) {
-      const [updatedUser] = await db
-         .update(usersTable)
-         .set(data)
-         .where(eq(usersTable.id, id))
-         .returning();
+   //    return updatedUser;
+   // }
+   // async partielUpdateUser(data: PartialUpdateUser, id: UserId) {
+   //    const [updatedUser] = await db
+   //       .update(usersTable)
+   //       .set(data)
+   //       .where(eq(usersTable.id, id))
+   //       .returning();
 
-      return updatedUser;
-   }
-   async deleteUser(id: UserId) {
-      const [deletedUser] = await db
-         .delete(usersTable)
-         .where(eq(usersTable.id, id))
-         .returning();
+   //    return updatedUser;
+   // }
+   // async deleteUser(id: UserId) {
+   //    const [deletedUser] = await db
+   //       .delete(usersTable)
+   //       .where(eq(usersTable.id, id))
+   //       .returning();
 
-      return deletedUser;
-   }
+   //    return deletedUser;
+   // }
 }
 
 export default UsersDataAccess;
