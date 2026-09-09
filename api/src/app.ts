@@ -8,7 +8,7 @@ const app: Express = express();
 app.use(urlencoded({ extended: false }));
 app.use(json());
 
-app.use("/", appRouter);
+app.use("/api", appRouter);
 
 app.use(notFoundMiddleware);
 app.use(globalErrorMiddleware);
