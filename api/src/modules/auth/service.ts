@@ -1,9 +1,7 @@
 import bcrypt from "bcrypt";
 import UsersService from "../users/service.ts";
 import ApiError from "../../core/error/apiError.ts";
-import type { User, UserAuth, UserForClient } from "../users/types.ts";
-import jwt from "jsonwebtoken";
-import { env } from "../../config/env.ts";
+import type { UserAuth } from "../users/types.ts";
 import { createToken } from "./token.ts";
 
 const usersService = new UsersService();

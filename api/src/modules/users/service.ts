@@ -1,6 +1,5 @@
 import type { CreateUser } from "./types.ts";
 import UsersDataAccess from "./dataAccess.ts";
-import ApiError from "../../core/error/apiError.ts";
 
 const usersDataAccess = new UsersDataAccess();
 

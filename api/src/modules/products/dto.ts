@@ -1,5 +1,4 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-orm/zod";
-import { z } from "zod";
 import { productsTable } from "./schema.ts";
 import { createIdValidationSchema } from "../../core/utils/createValidationSchema.ts";
 

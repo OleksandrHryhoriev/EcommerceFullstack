@@ -2,7 +2,6 @@ import { db } from "../../core/db/index.ts";
 import { eq } from "drizzle-orm";
 import { usersTable } from "./schema.ts";
 import type { CreateUser } from "./types.ts";
-import ApiError from "../../core/error/apiError.ts";
 
 class UsersDataAccess {
    async getUsersList() {
