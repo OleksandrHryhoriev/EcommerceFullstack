@@ -5,7 +5,7 @@ import authRouter from "./modules/auth/routes.ts";
 const appRouter = Router();
 
 appRouter.get("/", (req, res) => {
-   res.send("Hello from App");
+   res.send("API is ready to communicate");
 });
 
 appRouter.use("/products", productsRouter);
