@@ -3,6 +3,8 @@ import { env } from "./config/env.ts";
 
 const PORT = env.PORT;
 
-app.listen(PORT, () => {
-   console.log(`App listening on port ${PORT}`);
-});
+if (env.NODE_ENV !== "production") {
+   app.listen(PORT, () => {
+      console.log(`App is listening on port ${PORT}`);
+   });
+}
