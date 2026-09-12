@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button";
+import ContentWrapper from "@/components/main/content/ContentWrapper";
+import PageTitle from "@/components/main/PageTitle";
 
-export default function Home() {
+export default function DashboardPage() {
    return (
-      <div className="flex flex-col flex-1 items-center justify-center font-sans">
-         <main className="flex flex-1 w-full flex-col items-center justify-between p-10 sm:items-start">
-            <Button>Click</Button>
-         </main>
+      <div className="w-full h-full">
+         <PageTitle title="Title" />
+         <ContentWrapper>Page Content</ContentWrapper>
       </div>
    );
 }
